@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.print.print.mapper.OrderMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="Order" id="OrderMap">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="uid" property="uid" jdbcType="INTEGER" />
+        <result column="sid" property="sid" jdbcType="INTEGER" />
+        <result column="pid" property="pid" jdbcType="INTEGER" />
+        <result column="date" property="date" jdbcType="DATE" />
+        <result column="file" property="file" jdbcType="VARCHAR" />
+        <result column="needs" property="needs" jdbcType="VARCHAR" />
+        <result column="other_needs" property="other_needs" jdbcType="VARCHAR" />
+        <result column="state" property="state" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectOrderById" resultType="Order">
+        select * from orders where id = #{id}
+    </select>
+
+    <select id="selectOrderByUid" resultMap="OrderMap">
+        select * from orders where uid = #{uid}
+    </select>
+
+    <select id="selectOrderByPidState" resultMap="OrderMap">
+        select * from orders where pid = #{pid} and state = #{state}
+    </select>
+
+    <insert id="addOrder" parameterType="Order">
+        insert into orders (uid,sid,pid,date,file,needs,other_needs,state)
+        values (#{uid},#{sid},#{pid},#{date},#{file},#{needs},#{other_needs},#{state})
+    </insert>
+
+    <update id="updateOrder" parameterType="Order">
+        update orders set
+        <if test="sid!=null">sid = #{sid}</if>
+        <if test="pid!=null">,pid = #{pid}</if>
+        <if test="date!=null">,date = #{date}</if>
+        <if test="file!=null">,file = #{file}</if>
+        <if test="needs!=null">,needs = #{needs}</if>
+        <if test="other_needs!=null">,other_needs = #{other_needs}</if>
+        <if test="state!=null">,state = #{state}</if>
+        where id = #{id}
+    </update>
+
+</mapper>

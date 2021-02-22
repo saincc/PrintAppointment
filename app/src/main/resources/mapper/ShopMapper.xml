@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.print.print.mapper.ShopMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="Shop" id="ShopMap">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="uid" property="uid" jdbcType="INTEGER" />
+        <result column="sid" property="sid" jdbcType="INTEGER" />
+        <result column="shopname" property="shopname" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="support" property="support" jdbcType="VARCHAR" />
+        <result column="credit" property="credit" jdbcType="DOUBLE" />
+        <result column="sales" property="sales" jdbcType="INTEGER" />
+        <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectShopByUid" resultType="Shop">
+        select * from shops where uid = #{uid}
+    </select>
+
+    <select id="selectShopById" resultType="Shop">
+        select * from shops where id = #{id}
+    </select>
+
+    <select id="selectAllShop" resultMap="ShopMap">
+        select * from shops
+    </select>
+
+    <select id="selectShopBySid" resultMap="ShopMap">
+        select * from shops where sid = #{sid}
+    </select>
+
+    <insert id="addShop" parameterType="Shop">
+        insert into shops (uid,sid,shopname,address,support,credit,sales,avatar)
+        values (#{uid},#{sid},#{shopname},#{address},#{support},#{credit},#{sales},#{avatar})
+    </insert>
+
+    <update id="updateShop" parameterType="Shop">
+        update shops set
+        <if test="sid!=null">sid = #{sid}</if>
+        <if test="shopname!=null">,shopname = #{shopname}</if>
+        <if test="address!=null">,address = #{address}</if>
+        <if test="support!=null">,support = #{support}</if>
+        <if test="avatar!=null">,avatar = #{avatar}</if>
+        <if test="credit!=null">,credit = #{credit}</if>
+        <if test="sales!=null">,sales = #{sales}</if>
+        where uid = #{uid}
+    </update>
+
+
+</mapper>
